@@ -104,6 +104,10 @@
   .story { display: grid; grid-template-columns: 1.2fr 1fr; gap: 72px; }
   .story p { color: var(--ink-light-2); margin-bottom: 20px; max-width: 62ch; }
   .story p strong { color: var(--ink-light); font-weight: 600; }
+  .read { display: inline-flex; align-items: center; gap: 10px; margin-top: 6px; font-weight: 600; color: var(--ink-light); }
+  .read:hover { color: #fff; }
+  .read svg { transition: transform .2s var(--ease); }
+  .read:hover svg { transform: translateX(3px); }
   .facts { list-style: none; border-top: 1px solid var(--steel); }
   .facts li { display: flex; justify-content: space-between; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--steel); font-size: 16px; color: var(--ink-light-2); }
   .facts li b { color: var(--ink-light); font-weight: 600; text-align: right; }
@@ -197,6 +201,7 @@
     <nav aria-label="Main">
       <a href="#about">About</a>
       <a href="#work">Work</a>
+      <a href="posts/ai-receptionist.html">Writing</a>
       <a class="talk" href="#contact">Let's talk</a>
     </nav>
   </div>
@@ -237,6 +242,7 @@
           <p>I needed a website for <strong>T3Trims</strong>, so I built one: a booking site with an <strong>AI chat receptionist</strong> that answers clients' questions about prices, hours and styles any time of day.</p>
           <p>I'm at the chair from noon to eight, so anything that saves me a phone call is worth building. I build with AI, which means I go from idea to working product in days.</p>
           <p>Running a small business taught me what small businesses need: <strong>fewer missed bookings, less admin</strong>, and tools that work without a manual. That's what I build now.</p>
+          <a class="read" href="posts/ai-receptionist.html">Read: How I built an AI receptionist for my barbershop <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
         <ul class="facts">
           <li>Based in<b>Mississauga, ON</b></li>
