@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building CodeLingo: Duolingo-style lessons for code | T3</title>
+<meta name="description" content="Case study: how I built CodeLingo, a coding app with 581 bite-sized challenges where every answer is real code that runs in the browser.">
+<meta name="theme-color" content="#111112">
+<meta property="og:title" content="Building CodeLingo: Duolingo-style lessons for code">
+<meta property="og:description" content="581 bite-sized challenges, real code running in the browser, and the checks that keep every answer honest.">
+<meta property="og:image" content="https://t3rrynguy3n.netlify.app/images/og.png">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://t3rrynguy3n.netlify.app/posts/codelingo.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Hanken+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="post.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="bar">
+      <a class="mark" href="../">T<span>3</span></a>
+      <a class="back" href="../#work">← Back to the work</a>
+    </div>
+    <h1>Building CodeLingo: Duolingo-style lessons for code</h1>
+    <p class="meta">Terry "T3" Nguyen · October 2026 · Case study · 5 min read</p>
+    <dl class="facts">
+      <div><dt>Role</dt><dd>Solo: design and build</dd></div>
+      <div><dt>Stack</dt><dd>React 19, TypeScript, Supabase, Pyodide</dd></div>
+      <div><dt>Status</dt><dd>In development, not launched</dd></div>
+      <div><dt>Code</dt><dd><a href="https://github.com/b0ok/CodeLingo" target="_blank" rel="noopener">github.com/b0ok/CodeLingo</a></dd></div>
+    </dl>
+  </div>
+</header>
+
+<main>
+<article class="wrap">
+  <p>Duolingo turned language practice into something people open every day. CodeLingo tries the same thing for code: five minutes a day, short challenges, streaks and leagues. The difference is that every answer is <strong>real code that actually runs</strong>, not a multiple-choice guess.</p>
+
+  <figure class="wide">
+    <img src="../images/codelingo-learn.webp" alt="The CodeLingo Learn screen: a Python learning tree starting at The Magic print(), with a daily goal, daily tasks, a streak calendar and a Bronze League rank" width="1280" height="800">
+    <figcaption>The Learn screen: a path of lessons, a daily goal, daily tasks and your league rank.</figcaption>
+  </figure>
+
+  <h2>What's in it</h2>
+  <p>Four courses, built lesson by lesson:</p>
+  <ul>
+    <li><strong>Python:</strong> 10 units, 27 lessons, 189 challenges</li>
+    <li><strong>JavaScript:</strong> 9 units, 27 lessons, 189 challenges</li>
+    <li><strong>SQL:</strong> 9 units, 20 lessons, 140 challenges</li>
+    <li><strong>HTML &amp; CSS:</strong> 6 units, 9 lessons, 63 challenges</li>
+  </ul>
+  <p>That's 581 challenges, plus 22 practice sets and a free sandbox. Around them sits the game loop: XP and levels, streaks, gold rings, life points, daily tasks, a ring shop, badges and leagues.</p>
+
+  <h2>The hard part: running real code safely</h2>
+  <p>Checking an answer by comparing text is easy and wrong. <code>print('hi')</code> and <code>print("hi")</code> are both correct. So CodeLingo runs the code and grades what it <strong>does</strong>:</p>
+  <ul>
+    <li><strong>Python</strong> runs in the browser through Pyodide, inside a Web Worker so a slow loop can't freeze the page.</li>
+    <li><strong>JavaScript</strong> runs in its own locked-down Web Worker, away from the page and your account.</li>
+    <li><strong>SQL</strong> runs on a built-in engine against a sample database.</li>
+    <li><strong>HTML &amp; CSS</strong> are graded with structural checks.</li>
+  </ul>
+  <p>Nothing has to be installed, and no code leaves your device to be graded. A wrong answer gets one more try before the explanation shows, so you get a chance to fix it yourself first.</p>
+  <figure class="wide">
+    <img src="../images/codelingo.webp" alt="A CodeLingo Python challenge: the learner filled in print to complete print(&quot;Hello, World!&quot;) and got it right" width="1280" height="615">
+    <figcaption>The first Python challenge, answered correctly, with the explanation underneath.</figcaption>
+  </figure>
+
+  <h2>Making sure 581 answers are actually right</h2>
+  <p>With this many challenges, one broken answer key is a learner stuck on a question they got right. So the app checks itself. Every pull request runs six checks in GitHub Actions:</p>
+  <ul>
+    <li>Type checking and a full build</li>
+    <li>Every lesson and challenge has the right structure</li>
+    <li>Course roadmaps match the actual lessons</li>
+    <li>Rewards and shop prices match the game's economy table</li>
+    <li><strong>Every sample answer is run through its own grader and has to pass</strong></li>
+  </ul>
+
+  <h2>Security before going public</h2>
+  <p>Before I made the code public, I ran a security review and fixed what it found:</p>
+  <ul>
+    <li>A strict Content Security Policy, with no <code>unsafe-eval</code> allowed</li>
+    <li>JavaScript challenges moved into an isolated worker</li>
+    <li>Database limits on profile text, plus a filter for usernames and bios</li>
+    <li>Sign-in no longer reveals whether an email has an account</li>
+  </ul>
+  <p>Accounts are optional. Without them, everything runs locally in the browser. With them, progress syncs through Supabase, and row-level security makes sure each person can only touch their own data.</p>
+
+  <h2>How I build it</h2>
+  <p>Every change is its own small pull request against main, with the checks running before it merges. There have been nearly 30 so far, following a written build plan. Small PRs are easy to review, and a bad change is easy to find and undo.</p>
+
+  <h2>What's next</h2>
+  <p>AI check-ins that test whether you really understand each milestone, then payments and a launch. It isn't live yet, so there are no users to report. When there are, the numbers go here.</p>
+
+  <div class="cta">
+    <h2>Need something built?</h2>
+    <p>I build web apps and AI tools for small businesses, from booking sites to receptionists that answer while you work.</p>
+    <a class="btn" href="../#contact">Let's talk <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <nav class="more" aria-label="More case studies">
+      <a href="theatre.html">The Nguyen Awards Theatre<span>A booking system that can't double-book a seat</span></a>
+      <a href="ai-receptionist.html">The T3Trims receptionist<span>How I built an AI receptionist for my barbershop</span></a>
+    </nav>
+  </div>
+</article>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 Terry "T3" Nguyen · <a href="../">t3rrynguy3n.netlify.app</a></div>
+</footer>
+
+</body>
+</html>

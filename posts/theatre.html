@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Nguyen Awards Theatre: a booking system that can't double-book | T3</title>
+<meta name="description" content="Case study: a Cineplex-style movie booking app in Node, Express and SQLite, built so two people can never get the same seat.">
+<meta name="theme-color" content="#111112">
+<meta property="og:title" content="The Nguyen Awards Theatre: a booking system that can't double-book">
+<meta property="og:description" content="Cineplex-style booking, live seat maps, and a database rule that makes double-booking impossible.">
+<meta property="og:image" content="https://t3rrynguy3n.netlify.app/images/og.png">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://t3rrynguy3n.netlify.app/posts/theatre.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Hanken+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="post.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="bar">
+      <a class="mark" href="../">T<span>3</span></a>
+      <a class="back" href="../#work">← Back to the work</a>
+    </div>
+    <h1>The Nguyen Awards Theatre: a booking system that can't double-book</h1>
+    <p class="meta">Terry "T3" Nguyen · October 2026 · Case study · 5 min read</p>
+    <dl class="facts">
+      <div><dt>Role</dt><dd>Solo: design and build</dd></div>
+      <div><dt>Stack</dt><dd>Node 22, Express 5, SQLite, JWT</dd></div>
+      <div><dt>Status</dt><dd>Runs locally; hosting is next</dd></div>
+      <div><dt>Code</dt><dd><a href="https://github.com/b0ok/movie-reservation" target="_blank" rel="noopener">github.com/b0ok/movie-reservation</a></dd></div>
+    </dl>
+  </div>
+</header>
+
+<main>
+<article class="wrap">
+  <p>It started as a classic backend exercise: build a movie reservation API. I kept going until it felt like a real theatre, with Cineplex-style booking, a live seat map and QR ticket passes. It's also where I keep my own movie reviews, one per film, rated out of 10.</p>
+
+  <figure class="wide">
+    <img src="../images/theatre.webp" alt="The Nguyen Awards Theatre home page featuring John Wick, with its next showtime, a Get tickets button and a Now Playing row" width="1280" height="800">
+    <figcaption>The home page: the featured film, its next showtime, and what's playing.</figcaption>
+  </figure>
+
+  <h2>How booking works</h2>
+  <p>Pick a film, a date and a time, then four steps: <strong>Tickets → Seats → Review → Confirmed</strong>.</p>
+  <ul>
+    <li>Three formats: Standard, 4DX and VIP (19+, so no child tickets)</li>
+    <li>General Admission, Child ($4 less) and Senior ($3 less)</li>
+    <li>Snack combos, priced by the server so nobody can edit the price in their browser</li>
+    <li>Showtimes only between noon and midnight, and never overlapping in the same hall</li>
+    <li>A QR ticket pass when you're done</li>
+  </ul>
+  <figure class="wide">
+    <img src="../images/theatre-seats.webp" alt="The seat step for The Matrix: two seats, G4 and G5, picked on the seat map, with an order summary showing $27.00" width="1280" height="866">
+    <figcaption>The seat step. Taken seats are crossed out, and the order summary updates as you pick.</figcaption>
+  </figure>
+
+  <h2>The hard part: two people, one seat</h2>
+  <p>The classic booking bug: two people click the same seat at the same moment, the app checks both requests, sees the seat is free both times, and sells it twice.</p>
+  <p>Checking in the app code isn't enough, because both checks can pass before either booking saves. So the rule lives in the <strong>database</strong>: a unique index that allows only one active booking per seat per showtime. If two bookings arrive at once, the database accepts one and refuses the other, every time. The loser gets a clear message listing which seats were taken.</p>
+  <p>The seat page also re-checks the map every 6 seconds. If someone grabs a seat while you're looking, it flashes, any of your picks they got first are released, and the page suggests other showtimes with good seats left.</p>
+
+  <h2>Making a demo feel alive</h2>
+  <p>An empty theatre makes a dull demo, so I built a demand simulator. It fills each show to a realistic level, then adds a new party every 12 seconds or so. Evenings, weekends and premium formats fill up faster, and center seats a little past the middle row go first.</p>
+  <p>Simulated bookings are clearly labelled in the admin screens and switch off with one setting. A shared demo account lets visitors try booking, and its bookings are cleared every night. The last reset date is saved in the database, so a restart never resets twice, and a server that slept through the night catches up when it wakes.</p>
+
+  <h2>Getting the details right</h2>
+  <ul>
+    <li><strong>Prices never change after the fact.</strong> Each showtime stores its full ticket price, so changing a format's surcharge never reprices tickets already on sale.</li>
+    <li><strong>Money is stored in cents,</strong> so totals never pick up rounding errors.</li>
+    <li><strong>The database upgrades itself.</strong> Schema changes are numbered migrations that run on startup.</li>
+    <li><strong>Admins get real reports:</strong> occupancy, seats sold and revenue by showtime, film and format.</li>
+  </ul>
+
+  <h2>Security</h2>
+  <p>Before making the code public I scanned its history for secrets and tightened things up. The server refuses to start with the example secret key, public sign-up is off unless switched on, and strict security headers help block common browser attacks. Customers and admins have separate roles, and only admins can change films, showtimes or reports.</p>
+
+  <h2>What's next</h2>
+  <p>Hosting it on a server with a persistent disk so you can try it live, then a door scanner that checks QR tickets at the entrance.</p>
+
+  <div class="cta">
+    <h2>Need something built?</h2>
+    <p>I build web apps and AI tools for small businesses. If your business takes bookings, this is the kind of problem I like solving.</p>
+    <a class="btn" href="../#contact">Let's talk <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <nav class="more" aria-label="More case studies">
+      <a href="codelingo.html">CodeLingo<span>Duolingo-style lessons with real code</span></a>
+      <a href="ai-receptionist.html">The T3Trims receptionist<span>How I built an AI receptionist for my barbershop</span></a>
+    </nav>
+  </div>
+</article>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 Terry "T3" Nguyen · <a href="../">t3rrynguy3n.netlify.app</a></div>
+</footer>
+
+</body>
+</html>
