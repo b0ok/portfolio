@@ -8,8 +8,11 @@
 <meta name="theme-color" content="#111112">
 <meta property="og:title" content="Terry &quot;T3&quot; Nguyen | Barber turned builder">
 <meta property="og:description" content="I cut hair. I build software. AI tools for my own shop, then for yours.">
-<meta property="og:image" content="https://t3rrynguy3n.netlify.app/images/t3trims.webp">
+<meta property="og:image" content="https://t3rrynguy3n.netlify.app/images/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:url" content="https://t3rrynguy3n.netlify.app/">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -50,7 +53,8 @@
 
   /* top bar */
   .top { position: fixed; inset: 0 0 auto 0; z-index: 40; transition: background .4s var(--ease), color .4s var(--ease); }
-  .top .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  .top .wrap { display: flex; align-items: center; gap: 12px; height: 68px; }
+  .top nav { margin-left: auto; }
   .top.light { color: var(--ink-dark); }
   .mark { font: 900 30px/1 var(--display); letter-spacing: 0.01em; text-decoration: none; }
   .mark span { color: var(--red); }
@@ -59,6 +63,7 @@
   .top nav a:hover { opacity: 1; }
   .top nav a.talk { opacity: 1; background: var(--red); color: #fff; padding: 10px 18px; border-radius: 4px; }
   .top nav a.talk:hover { background: var(--red-hover); }
+  .menu-btn { display: none; font: 600 15px/1 var(--body); color: inherit; background: none; border: 1px solid currentColor; border-radius: 4px; padding: 10px 14px; cursor: pointer; }
 
   /* guard dial */
   .dial { position: fixed; right: 26px; top: 50%; transform: translateY(-50%); z-index: 30; display: grid; justify-items: end; gap: 10px; color: var(--ink-light); transition: color .4s var(--ease); }
@@ -87,6 +92,9 @@
   .btn.line:hover { border-color: currentColor; }
   .btn:hover svg { transform: translateX(3px); }
   .btn svg { transition: transform .2s var(--ease); }
+  .stats { list-style: none; display: flex; flex-wrap: wrap; gap: 20px 48px; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--steel); max-width: 760px; }
+  .stats li { display: grid; gap: 6px; font-size: 14px; color: var(--ink-light-2); }
+  .stats b { font: 800 44px/1 var(--display); color: var(--ink-light); font-variant-numeric: tabular-nums; }
   .plate { margin-top: auto; padding-top: 64px; }
   .plate figure { position: relative; border-radius: 6px 6px 0 0; overflow: hidden; border: 1px solid var(--steel); border-bottom: 0; box-shadow: 0 -30px 80px -40px rgba(0,0,0,.9); }
   .plate img { display: block; width: 100%; height: clamp(180px, 34vw, 420px); object-fit: cover; object-position: top; }
@@ -114,8 +122,12 @@
 
   /* work (#4): the guard chart */
   .chart { border-top: 1px solid var(--steel); }
-  .row { display: grid; grid-template-columns: minmax(170px, 1.1fr) 2fr 1fr auto; gap: 28px; align-items: center; padding: 28px 8px; border-bottom: 1px solid var(--steel); text-decoration: none; transition: background .3s var(--ease), padding .3s var(--ease); }
-  a.row:hover { background: rgba(242,239,233,.05); padding-left: 18px; }
+  .row { display: grid; grid-template-columns: minmax(170px, 1.1fr) 2fr 1fr auto; gap: 28px; align-items: center; padding: 28px 8px; border-bottom: 1px solid var(--steel); text-decoration: none; transition: background .3s var(--ease); }
+  a.row h3, a.row p, a.row .stack { transition: transform .3s var(--ease); }
+  @media (hover: hover) and (pointer: fine) {
+    a.row:hover { background: rgba(242,239,233,.05); }
+    a.row:hover h3, a.row:hover p, a.row:hover .stack { transform: translateX(10px); }
+  }
   .row h3 { font: 800 clamp(30px, 3.4vw, 40px)/1 var(--display); text-transform: uppercase; }
   .row p { color: var(--ink-light-2); font-size: 16.5px; max-width: 56ch; }
   .row .stack { font-size: 14px; color: var(--ink-light-2); }
@@ -126,9 +138,18 @@
   .row.featured { grid-template-columns: 1fr 1fr; gap: 40px; padding: 40px 8px; }
   .row.featured h3 { font-size: clamp(44px, 5vw, 64px); margin-bottom: 14px; }
   .row.featured p { margin-bottom: 18px; }
-  .row.featured img { width: 100%; max-width: 560px; justify-self: end; display: block; border-radius: 4px; border: 1px solid var(--steel); }
+  .row.featured img { width: 100%; height: auto; max-width: 560px; justify-self: end; display: block; border-radius: 4px; border: 1px solid var(--steel); }
   .row.featured .links { display: flex; gap: 22px; font-weight: 600; font-size: 15px; }
   .row.featured .links a { display: inline-flex; align-items: center; gap: 6px; }
+  .row.featured .shot { overflow: hidden; border-radius: 4px; border: 1px solid var(--steel); max-width: 560px; justify-self: end; }
+  .row.featured .shot img { border: 0; border-radius: 0; transition: transform .6s var(--ease); }
+  @media (hover: hover) and (pointer: fine) { .row.featured:hover .shot img { transform: scale(1.03); } }
+
+  /* scroll reveal: only when JS is on and motion is welcome */
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-reveal] { opacity: 0; transform: translateY(12px); filter: blur(4px); transition: opacity .6s var(--ease), transform .6s var(--ease), filter .6s var(--ease); transition-delay: calc(var(--i, 0) * 90ms); }
+    .js [data-reveal].in { opacity: 1; transform: none; filter: none; }
+  }
 
   /* origin (#2) */
   .origin { display: grid; grid-template-columns: 1fr 1.15fr; gap: 64px; align-items: center; }
@@ -177,7 +198,16 @@
   @media (max-width: 640px) {
     body { font-size: 17px; }
     .wrap { width: calc(100% - 32px); }
+    .menu-btn { display: block; }
+    .top.open .menu-btn { margin-left: auto; }
     .top nav a:not(.talk) { display: none; }
+    .top.open { background: var(--g8) !important; color: var(--ink-light); }
+    .top.open nav { position: absolute; top: 68px; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 8px 16px 20px; background: var(--g8); border-bottom: 1px solid var(--steel); }
+    .top.open nav a:not(.talk) { display: block; padding: 14px 0; font-size: 18px; opacity: 1; border-bottom: 1px solid var(--steel); }
+    .top.open nav a.talk { margin-top: 16px; text-align: center; }
+    .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .stats li { font-size: 13px; line-height: 1.4; }
+    .stats b { font-size: 34px; }
     .hero { padding-top: 120px; }
     .sec { padding: 120px 0 100px; }
     .head { grid-template-columns: 1fr; gap: 6px; margin-bottom: 40px; }
@@ -198,12 +228,13 @@
 <header class="top" id="top-bar">
   <div class="wrap">
     <a class="mark" href="#top">T<span>3</span></a>
-    <nav aria-label="Main">
+    <nav aria-label="Main" id="main-nav">
       <a href="#about">About</a>
       <a href="#work">Work</a>
       <a href="posts/ai-receptionist.html">Writing</a>
       <a class="talk" href="#contact">Let's talk</a>
     </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
   </div>
 </header>
 
@@ -225,6 +256,11 @@
         <a class="btn red" href="#contact">Let's talk <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a class="btn line" href="#work">See the work</a>
       </div>
+      <ul class="stats">
+        <li><b>581</b>coding challenges in CodeLingo</li>
+        <li><b>6</b>public projects on GitHub</li>
+        <li><b>24/7</b>AI receptionist answering</li>
+      </ul>
     </div>
     <div class="wrap plate">
       <figure>
@@ -273,18 +309,30 @@
           <img src="images/t3trims-chat.webp" alt="The T3Trims AI receptionist answering &quot;How much is a fade?&quot; with the Fresh Up price of $35" width="640" height="540" loading="lazy">
         </div>
 
-        <a class="row" href="https://github.com/b0ok/CodeLingo" target="_blank" rel="noopener">
-          <h3>CodeLingo</h3>
-          <p>Duolingo-style app for learning to code: 581 bite-sized challenges across Python, JavaScript, SQL and HTML/CSS, with streaks, leagues and code that runs right in the browser.</p>
-          <span class="stack">React · TypeScript · Supabase</span>
-          <span class="status">Code <svg class="i go" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-        </a>
-        <a class="row" href="https://github.com/b0ok/movie-reservation" target="_blank" rel="noopener">
-          <h3>The Nguyen Awards Theatre</h3>
-          <p>A movie theatre booking app: seat maps, showtimes, QR ticket passes and a snack upsell. It doubles as my personal movie-review log.</p>
-          <span class="stack">Node · Express · SQLite</span>
-          <span class="status">Code <svg class="i go" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-        </a>
+        <div class="row featured">
+          <div>
+            <h3>CodeLingo</h3>
+            <p>Duolingo-style app for learning to code: 581 bite-sized challenges across Python, JavaScript, SQL and HTML/CSS, with streaks, leagues and code that runs right in the browser.</p>
+            <p class="stack">React · TypeScript · Supabase</p>
+            <div class="links">
+              <a href="https://github.com/b0ok/CodeLingo" target="_blank" rel="noopener">Code <svg class="i" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+            </div>
+          </div>
+          <div class="shot"><img src="images/codelingo.webp" alt="A CodeLingo Python challenge: the learner filled in print to complete print(&quot;Hello, World!&quot;) and got it right" width="1280" height="615" loading="lazy"></div>
+        </div>
+
+        <div class="row featured">
+          <div>
+            <h3>The Nguyen Awards Theatre</h3>
+            <p>A movie theatre booking app: seat maps, showtimes, QR ticket passes and a snack upsell. It doubles as my personal movie-review log.</p>
+            <p class="stack">Node · Express · SQLite</p>
+            <div class="links">
+              <a href="https://github.com/b0ok/movie-reservation" target="_blank" rel="noopener">Code <svg class="i" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+            </div>
+          </div>
+          <div class="shot"><img src="images/theatre.webp" alt="The Nguyen Awards Theatre home page featuring John Wick, with showtimes and a Get tickets button" width="1280" height="800" loading="lazy"></div>
+        </div>
+
         <a class="row" href="#contact">
           <h3>MIA</h3>
           <p>My assistant dashboard. Its agent sorts my Gmail twice a day and drafts routine replies for me to approve.</p>
@@ -396,6 +444,25 @@
   addEventListener('scroll', update, { passive: true });
   addEventListener('resize', update);
   update();
+
+  // Phone menu
+  const menuBtn = bar.querySelector('.menu-btn');
+  const setMenu = open => { bar.classList.toggle('open', open); menuBtn.setAttribute('aria-expanded', open); menuBtn.textContent = open ? 'Close' : 'Menu'; };
+  menuBtn.addEventListener('click', () => setMenu(!bar.classList.contains('open')));
+  bar.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  addEventListener('keydown', e => { if (e.key === 'Escape' && bar.classList.contains('open')) { setMenu(false); menuBtn.focus(); } });
+
+  // Scroll reveal: each section's pieces fade up in order as they enter view
+  document.documentElement.classList.add('js');
+  const revealGroups = ['.sec .head', '.story > *', '.chart > .row', '.origin > *', '.contact .lede', '.contact form'];
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { rootMargin: '0px 0px -10% 0px' });
+  document.querySelectorAll(revealGroups.join(',')).forEach(el => {
+    el.dataset.reveal = '';
+    el.style.setProperty('--i', Math.min([...el.parentNode.children].indexOf(el), 3));
+    io.observe(el);
+  });
 </script>
 </body>
 </html>
