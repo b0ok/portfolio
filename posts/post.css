@@ -1,0 +1,54 @@
+:root {
+  --g8: #111112; --g6: #353639; --g0: #ede7dd;
+  --ink-light: #f2efe9; --ink-light-2: #bdbab4; --ink-dark: #17140f; --ink-dark-2: #423c34;
+  --red: #c8102e; --red-hover: #a50d26; --steel-dark: rgba(23,20,15,0.16);
+  --display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --body: "Hanken Grotesk", system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font: 19px/1.7 var(--body); background: var(--g0); color: var(--ink-dark); -webkit-font-smoothing: antialiased; caret-color: var(--red); }
+::selection { background: var(--red); color: #fff; }
+a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+a:hover { color: var(--red); }
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 2px; }
+.wrap { width: min(720px, 100% - 40px); margin: 0 auto; }
+
+header { background: var(--g8); color: var(--ink-light); padding: 28px 0 88px; position: relative; }
+header::after { content: ""; position: absolute; left: 0; right: 0; bottom: -140px; height: 140px; background: linear-gradient(var(--g8), var(--g0)); }
+.bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 72px; }
+.mark { font: 900 30px/1 var(--display); text-decoration: none; }
+.mark span { color: var(--red); }
+.back { font-size: 15px; font-weight: 600; text-decoration: none; opacity: .8; }
+.back:hover { opacity: 1; color: var(--ink-light); }
+h1 { font: 900 clamp(46px, 8vw, 84px)/0.92 var(--display); text-transform: uppercase; text-wrap: balance; }
+.meta { margin-top: 22px; font-size: 16px; color: var(--ink-light-2); }
+
+article { position: relative; z-index: 1; padding: 170px 0 100px; }
+article p { margin-bottom: 22px; max-width: 66ch; }
+article h2 { font: 800 clamp(30px, 4.4vw, 40px)/1 var(--display); text-transform: uppercase; margin: 56px 0 18px; }
+article ul { margin: 0 0 22px 1.1em; }
+article li { margin-bottom: 8px; }
+article strong { font-weight: 700; }
+figure { margin: 34px 0 40px; }
+figure img { display: block; width: 100%; height: auto; max-width: 560px; border-radius: 4px; border: 1px solid var(--steel-dark); box-shadow: 0 24px 50px -24px rgba(23,20,15,.4); }
+figcaption { margin-top: 12px; font-size: 15px; color: var(--ink-dark-2); }
+blockquote { margin: 0 0 22px; padding: 18px 22px; background: #f8f4ee; border: 1px solid var(--steel-dark); border-radius: 4px; font-size: 17px; color: var(--ink-dark-2); }
+.cta { margin-top: 56px; padding-top: 34px; border-top: 1px solid var(--steel-dark); }
+.cta h2 { margin-top: 0; }
+.btn { display: inline-flex; align-items: center; gap: 10px; margin-top: 8px; font: 600 16px/1 var(--body); padding: 16px 22px; border-radius: 4px; text-decoration: none; background: var(--red); color: #fff; }
+.btn:hover { background: var(--red-hover); color: #fff; }
+svg.i { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+footer { border-top: 1px solid var(--steel-dark); padding: 30px 0 44px; font-size: 14.5px; color: var(--ink-dark-2); }
+@media (max-width: 640px) { body { font-size: 18px; } header { padding-bottom: 60px; } .bar { margin-bottom: 52px; } }
+
+/* case studies */
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 18px 28px; margin-top: 36px; padding-top: 22px; border-top: 1px solid rgba(242,239,233,.14); }
+.facts dt { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-light-2); }
+.facts dd { margin-top: 4px; font-size: 16px; font-weight: 600; line-height: 1.4; }
+.facts a:hover { color: var(--ink-light); }
+figure.wide img { max-width: 100%; height: auto; }
+.more { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 24px; }
+.more a { display: block; padding: 18px 20px; border: 1px solid var(--steel-dark); border-radius: 4px; background: #f8f4ee; text-decoration: none; font-weight: 600; }
+.more a span { display: block; font-size: 14px; font-weight: 400; color: var(--ink-dark-2); }
+.more a:hover { border-color: var(--red); }
+code { font: 0.9em/1 ui-monospace, Consolas, monospace; background: #f8f4ee; border: 1px solid var(--steel-dark); border-radius: 3px; padding: 2px 5px; }
