@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI receptionist for barbershops | T3</title>
+<meta name="description" content="An AI receptionist for your barbershop's website. It answers clients' questions about prices, hours and promos while you cut, and sends them to your booking page. Built by a working barber.">
+<meta name="theme-color" content="#111112">
+<meta property="og:title" content="An AI receptionist for your barbershop">
+<meta property="og:description" content="Answers clients' questions while you cut. Built by a working barber in Mississauga.">
+<meta property="og:image" content="https://t3rrynguy3n.netlify.app/images/og.png">
+<meta property="og:url" content="https://t3rrynguy3n.netlify.app/barbers/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --g8: #111112; --g6: #353639; --g0: #ede7dd; --paper: #f8f4ee;
+    --ink-light: #f2efe9; --ink-light-2: #bdbab4; --ink-dark: #17140f; --ink-dark-2: #423c34;
+    --red: #c8102e; --red-hover: #a50d26; --live: #3fae6a;
+    --steel: rgba(242,239,233,0.14); --steel-dark: rgba(23,20,15,0.16);
+    --display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+    --body: "Hanken Grotesk", system-ui, sans-serif;
+    --ease: cubic-bezier(.16, 1, .3, 1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font: 18px/1.6 var(--body); background: var(--g0); color: var(--ink-dark); -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--red); color: #fff; }
+  a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  :focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 2px; }
+  svg.i { width: 18px; height: 18px; flex: none; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .wrap { width: min(1120px, 100% - 48px); margin: 0 auto; }
+  h2 { font: 800 clamp(36px, 5vw, 60px)/0.95 var(--display); text-transform: uppercase; text-wrap: balance; margin-bottom: 20px; }
+  .lede { font-size: 20px; color: var(--ink-dark-2); max-width: 52ch; text-wrap: pretty; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; font: 600 17px/1 var(--body); padding: 18px 24px; border-radius: 4px; text-decoration: none; background: var(--red); color: #fff; border: 0; cursor: pointer; transition: background .2s; }
+  .btn:hover { background: var(--red-hover); }
+  .btn svg { transition: transform .2s var(--ease); }
+  .btn:hover svg { transform: translateX(3px); }
+  .note { font-size: 15px; color: var(--ink-light-2); margin-top: 14px; }
+
+  /* top + hero (dark) */
+  .dark { background: var(--g8); color: var(--ink-light); }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 72px; }
+  .mark { font: 900 30px/1 var(--display); text-decoration: none; }
+  .mark span { color: var(--red); }
+  .top .btn { padding: 12px 18px; font-size: 15px; }
+  .hero { padding: 64px 0 0; position: relative; }
+  .hero::after { content: ""; display: block; height: 160px; background: linear-gradient(var(--g8), var(--g0)); }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 56px; align-items: center; }
+  .kicker { font-size: 14px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-light-2); margin-bottom: 18px; }
+  h1 { font: 900 clamp(52px, 7.4vw, 104px)/0.9 var(--display); text-transform: uppercase; text-wrap: balance; }
+  h1 em { font-style: normal; color: var(--ink-light-2); }
+  .hero .sub { margin: 26px 0 32px; font-size: clamp(19px, 2vw, 21px); color: var(--ink-light-2); max-width: 46ch; text-wrap: pretty; }
+  .hero .sub strong { color: var(--ink-light); font-weight: 600; }
+  .proof { display: inline-flex; align-items: center; gap: 10px; margin-top: 28px; font-size: 15px; color: var(--ink-light-2); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--live); flex: none; }
+  .proof a { color: var(--ink-light); font-weight: 600; }
+  .shot { margin: 0; justify-self: end; max-width: 480px; width: 100%; }
+  .shot img { display: block; width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--steel); box-shadow: 0 40px 80px -40px rgba(0,0,0,.9); }
+  .shot figcaption { margin-top: 12px; font-size: 14px; color: var(--ink-light-2); }
+
+  section.light { padding: 40px 0 110px; }
+
+  /* problem */
+  .problem { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+  .texts { list-style: none; display: grid; gap: 12px; }
+  .texts li { justify-self: start; max-width: 32ch; padding: 12px 16px; background: var(--paper); border: 1px solid var(--steel-dark); border-radius: 16px 16px 16px 4px; font-size: 17px; }
+  .texts li:nth-child(even) { justify-self: end; }
+  .texts li small { display: block; font-size: 13px; color: var(--ink-dark-2); }
+
+  /* benefits */
+  .benefits { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 44px; }
+  .benefit { padding: 26px 24px; background: var(--paper); border: 1px solid var(--steel-dark); border-radius: 6px; }
+  .benefit h3 { font: 800 26px/1.05 var(--display); text-transform: uppercase; margin-bottom: 10px; }
+  .benefit p { font-size: 16.5px; color: var(--ink-dark-2); }
+
+  /* steps */
+  .steps { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 44px; counter-reset: s; }
+  .steps li { counter-increment: s; border-top: 2px solid var(--ink-dark); padding-top: 18px; }
+  .steps li::before { content: "0" counter(s); display: block; font: 800 44px/1 var(--display); color: var(--red); margin-bottom: 10px; font-variant-numeric: tabular-nums; }
+  .steps h3 { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+  .steps p { font-size: 16.5px; color: var(--ink-dark-2); }
+
+  /* barber */
+  .barber { display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: start; padding: 40px; background: var(--g8); color: var(--ink-light); border-radius: 6px; }
+  .barber .big { font: 900 120px/0.8 var(--display); }
+  .barber .big span { color: var(--red); }
+  .barber h2 { font-size: clamp(32px, 4vw, 44px); }
+  .barber p { color: var(--ink-light-2); max-width: 60ch; margin-bottom: 14px; }
+  .barber a { color: var(--ink-light); font-weight: 600; }
+
+  /* faq */
+  .faq { max-width: 780px; margin-top: 36px; border-top: 1px solid var(--steel-dark); }
+  .faq details { border-bottom: 1px solid var(--steel-dark); }
+  .faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 20px 0; font-weight: 600; font-size: 19px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; font: 800 30px/1 var(--display); color: var(--red); transition: transform .2s var(--ease); }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq details p { padding: 0 0 22px; color: var(--ink-dark-2); max-width: 64ch; }
+
+  /* book */
+  .book { padding: 110px 0 120px; }
+  .book .wrap { display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; align-items: start; }
+  .book .lede { color: var(--ink-light-2); }
+  .promise { list-style: none; margin-top: 28px; display: grid; gap: 10px; }
+  .promise li { display: flex; gap: 12px; align-items: center; color: var(--ink-light); }
+  .promise svg { color: var(--live); }
+  form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  form .full { grid-column: 1 / -1; }
+  label { display: grid; gap: 8px; font-size: 14px; font-weight: 600; }
+  label small { font-weight: 400; color: var(--ink-light-2); }
+  input, textarea { font: inherit; font-size: 17px; color: var(--ink-dark); background: var(--paper); border: 1px solid transparent; border-radius: 4px; padding: 15px 16px; }
+  input::placeholder, textarea::placeholder { color: #6a6257; }
+  input:focus, textarea:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 3px rgba(200,16,46,.35); }
+  textarea { min-height: 120px; resize: vertical; }
+  form .btn { justify-self: start; }
+  .hp { position: absolute; left: -9999px; }
+
+  footer { padding: 30px 0 44px; font-size: 14.5px; color: var(--ink-light-2); border-top: 1px solid var(--steel); }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; }
+  footer a { text-decoration: none; font-weight: 600; color: var(--ink-light); }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    .hero-grid, .problem, .book .wrap { grid-template-columns: 1fr; gap: 40px; }
+    .shot { justify-self: start; }
+    .steps { grid-template-columns: 1fr; gap: 28px; }
+    .barber { grid-template-columns: 1fr; gap: 16px; padding: 28px 24px; }
+    .barber .big { font-size: 80px; }
+  }
+  @media (max-width: 640px) {
+    body { font-size: 17px; }
+    .wrap { width: calc(100% - 32px); }
+    .hero { padding-top: 36px; }
+    .hero::after { height: 110px; }
+    section.light { padding-bottom: 80px; }
+    .book { padding: 80px 0 90px; }
+    form { grid-template-columns: 1fr; }
+    .top .btn { padding: 11px 14px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="dark top">
+  <div class="wrap">
+    <a class="mark" href="../" aria-label="T3, home">T<span>3</span></a>
+    <a class="btn" href="#book">Book a free call</a>
+  </div>
+</header>
+
+<main>
+  <section class="dark hero" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="kicker">AI receptionist for barbershops</p>
+        <h1 id="hero-title">Answer every client. <em>Even mid-fade.</em></h1>
+        <p class="sub">An AI receptionist on your shop's website. It knows <strong>your prices, hours and promos</strong>, answers clients any time of day, and sends them to <strong>your booking page</strong>. Built by a barber who uses it.</p>
+        <a class="btn" href="#book">Book a free call <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <p class="proof"><span class="dot"></span><span>Live on my own shop's site, <a href="https://t3trims.netlify.app" target="_blank" rel="noopener">T3Trims</a>, in Mississauga</span></p>
+      </div>
+      <figure class="shot">
+        <img src="../images/t3trims-chat.webp" alt="The T3Trims receptionist answering &quot;How much is a fade?&quot; with: A fade is part of our Fresh Up service, which is $35." width="640" height="540">
+        <figcaption>A real question to my shop's receptionist, and its real answer.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="light" aria-labelledby="problem-title">
+    <div class="wrap problem">
+      <div>
+        <h2 id="problem-title">You can't text back with clippers in your hand</h2>
+        <p class="lede">You're at the chair all day. The same questions keep coming in, and every one you can't answer is a client who might book somewhere else.</p>
+      </div>
+      <ul class="texts" aria-label="Messages barbers get every day">
+        <li>How much is a fade?<small>2:14 PM</small></li>
+        <li>You open Sunday?<small>2:31 PM</small></li>
+        <li>Do you do beards too?<small>3:05 PM</small></li>
+        <li>Student discount?<small>4:47 PM</small></li>
+        <li>How do I book??<small>9:12 PM</small></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="light" aria-labelledby="what-title">
+    <div class="wrap">
+      <h2 id="what-title">What it does for your shop</h2>
+      <div class="benefits">
+        <div class="benefit">
+          <h3>Answers while you work</h3>
+          <p>Prices, services, hours, location and promos, any time of day, in a short text-message style.</p>
+        </div>
+        <div class="benefit">
+          <h3>Sends them to book</h3>
+          <p>Points clients to the booking link you already use, so questions turn into appointments.</p>
+        </div>
+        <div class="benefit">
+          <h3>Never makes up a price</h3>
+          <p>It only answers from your shop's fact sheet. If it doesn't know, it says so and tells them to call or text you.</p>
+        </div>
+        <div class="benefit">
+          <h3>You stay in control</h3>
+          <p>It never books, cancels or charges anyone itself. The chair, the schedule and the money stay with you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light" aria-labelledby="how-title">
+    <div class="wrap">
+      <h2 id="how-title">How it works</h2>
+      <ol class="steps">
+        <li>
+          <h3>Free call</h3>
+          <p>Tell me about your shop: services, prices, hours, promos and your booking link.</p>
+        </li>
+        <li>
+          <h3>I set it up</h3>
+          <p>I write your shop's fact sheet and add the receptionist to the website you already have.</p>
+        </li>
+        <li>
+          <h3>Clients get answers</h3>
+          <p>When your prices or hours change, tell me and I update it, so it stays right.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="light" aria-labelledby="barber-title">
+    <div class="wrap">
+      <div class="barber">
+        <div class="big" aria-hidden="true">T<span>3</span></div>
+        <div>
+          <h2 id="barber-title">Built by a barber, not an agency</h2>
+          <p>I'm Terry "T3" Nguyen. I cut hair at T3Trims in Mississauga, and I built this receptionist for my own shop because I was missing the same texts you are.</p>
+          <p>It's early: I'm setting up the first shops myself, one at a time, so you deal with me directly. Read <a href="../posts/ai-receptionist.html">how I built it, including what broke</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="light" aria-labelledby="faq-title">
+    <div class="wrap">
+      <h2 id="faq-title">Questions barbers ask</h2>
+      <div class="faq">
+        <details>
+          <summary>What does it cost?</summary>
+          <p>It depends on your shop and what you need, so I quote you on the call. The call is free and there's no obligation.</p>
+        </details>
+        <details>
+          <summary>Will it make up prices or promises?</summary>
+          <p>It only answers from the fact sheet I write with you, and it's told never to make things up. When it doesn't know something, it tells the client to call or text you. It can even say a promo has ended, so nobody shows up expecting an old deal.</p>
+        </details>
+        <details>
+          <summary>Can it book appointments for me?</summary>
+          <p>Not by itself, and that's on purpose. It sends clients to the booking page you already use, so your schedule never gets touched by a bot.</p>
+        </details>
+        <details>
+          <summary>Do I need a new website?</summary>
+          <p>No. It's added to the website you have. If you don't have one yet, tell me on the call and we'll figure out the simplest option.</p>
+        </details>
+        <details>
+          <summary>What happens when my prices change?</summary>
+          <p>Tell me and I update the fact sheet. The receptionist is only as right as what it's given, so keeping it current is part of the deal.</p>
+        </details>
+        <details>
+          <summary>Is my information safe?</summary>
+          <p>The AI service's key lives on the server, never in your website's code, so nobody can copy it and run up a bill. The receptionist only knows what's on your fact sheet: public info like prices and hours.</p>
+        </details>
+        <details>
+          <summary>Will it sound like a robot?</summary>
+          <p>It's set up to answer like a front desk, short and friendly, the way you'd text a client. Try the one on <a href="https://t3trims.netlify.app" target="_blank" rel="noopener">my shop's site</a>: tap the chat bubble and ask it something.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="dark book" id="book" aria-labelledby="book-title">
+    <div class="wrap">
+      <div>
+        <h2 id="book-title">Book a free call</h2>
+        <p class="lede">Twenty minutes. Tell me about your shop and I'll tell you honestly whether this will help.</p>
+        <ul class="promise">
+          <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Free, no obligation</li>
+          <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>You talk to me, not a sales team</li>
+          <li><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>If it's not a fit, I'll say so</li>
+        </ul>
+      </div>
+      <form name="barber-call" method="POST" data-netlify="true" netlify-honeypot="company">
+        <input type="hidden" name="form-name" value="barber-call">
+        <label class="hp">Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label>
+        <label>Your name <input name="name" required autocomplete="name"></label>
+        <label>Shop name <input name="shop" required autocomplete="organization"></label>
+        <label>City <input name="city" required autocomplete="address-level2"></label>
+        <label>Email <input name="email" type="email" required autocomplete="email"></label>
+        <label class="full">Phone <small>(optional, if you'd rather I call)</small> <input name="phone" type="tel" autocomplete="tel"></label>
+        <label class="full">Your shop's website or booking link <small>(optional)</small> <input name="website" inputmode="url" autocomplete="url" placeholder="yourshop.com or your booking link"></label>
+        <label class="full">Anything I should know? <small>(optional)</small> <textarea name="message" placeholder="Best times to reach you, what questions you get most..."></textarea></label>
+        <button class="btn" type="submit">Book my free call <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="dark">
+  <div class="wrap">
+    <span>© 2026 Terry "T3" Nguyen · Mississauga, ON</span>
+    <a href="../">More about me</a>
+  </div>
+</footer>
+
+</body>
+</html>

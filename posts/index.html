@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Writing and learnings | T3</title>
+<meta name="description" content="Case studies and short learnings from Terry &quot;T3&quot; Nguyen, a barber in Mississauga who builds software with AI.">
+<meta name="theme-color" content="#111112">
+<meta property="og:title" content="Writing and learnings | T3">
+<meta property="og:description" content="Case studies, plus short notes on what broke, why, and what I learned.">
+<meta property="og:image" content="https://t3rrynguy3n.netlify.app/images/og.png">
+<meta property="og:url" content="https://t3rrynguy3n.netlify.app/posts/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Hanken+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="post.css">
+<style>
+  .list { margin-top: 24px; border-top: 1px solid var(--steel-dark); }
+  .list a { display: grid; gap: 4px; padding: 20px 0; border-bottom: 1px solid var(--steel-dark); text-decoration: none; }
+  .list b { font: 800 28px/1.05 var(--display); text-transform: uppercase; }
+  .list span { font-size: 16px; color: var(--ink-dark-2); }
+  .list a:hover b { color: var(--red); }
+  .intro { color: var(--ink-dark-2); }
+  .learning { padding: 28px 0; border-bottom: 1px solid var(--steel-dark); scroll-margin-top: 20px; }
+  .learning:first-of-type { border-top: 1px solid var(--steel-dark); margin-top: 24px; }
+  .learning .tag { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-dark-2); }
+  .learning h3 { font-size: 22px; line-height: 1.3; margin: 6px 0 10px; text-wrap: balance; }
+  .learning h3 a { text-decoration: none; }
+  .learning p { margin-bottom: 10px; }
+  .learning p:last-child { margin-bottom: 0; }
+  .learning .lesson { padding-left: 14px; border-left: 3px solid var(--red); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="bar">
+      <a class="mark" href="../">T<span>3</span></a>
+      <a class="back" href="../">← Back home</a>
+    </div>
+    <h1>Writing and learnings</h1>
+    <p class="meta">Case studies, plus short notes on what broke, why, and what I learned.</p>
+  </div>
+</header>
+
+<main>
+<article class="wrap">
+  <h2 id="case-studies">Case studies</h2>
+  <nav class="list" aria-labelledby="case-studies">
+    <a href="ai-receptionist.html"><b>How I built an AI receptionist for my barbershop</b><span>What it does, how it works, what broke, and what I'd tell another small business.</span></a>
+    <a href="codelingo.html"><b>Building CodeLingo</b><span>581 coding challenges, real code running in the browser, and the checks that keep every answer right.</span></a>
+    <a href="theatre.html"><b>The Nguyen Awards Theatre</b><span>A booking system where the database itself makes double-booking impossible.</span></a>
+  </nav>
+
+  <h2 id="learnings">Learnings</h2>
+  <p class="intro">I build with AI, which makes it easy to ship things without understanding them. So every time something breaks or surprises me, I write down what happened and what I learned. Newest first.</p>
+
+  <!-- New learning: copy one <section class="learning"> block, give it a new id, put it at the top. -->
+
+  <section class="learning" id="og-image-webp">
+    <p class="tag">Oct 23, 2026 · This site</p>
+    <h3><a href="#og-image-webp">LinkedIn might not show a .webp preview image</a></h3>
+    <p>My site's link preview used a .webp screenshot. WebP is great on web pages, but some social sites, LinkedIn included, don't reliably show it as a preview card.</p>
+    <p class="lesson">Make the share image a 1200×630 PNG or JPG. It's the one image on a site that gets read by other companies' software, not just browsers.</p>
+  </section>
+
+  <section class="learning" id="height-auto">
+    <p class="tag">Oct 23, 2026 · This site</p>
+    <h3><a href="#height-auto">Images with a width and height need <code>height: auto</code></a></h3>
+    <p>A screenshot on my homepage had been slightly squished since launch. The image tag had <code>width</code> and <code>height</code> set, which is good, because it stops the page jumping while images load. But my CSS shrank the width and left the height fixed.</p>
+    <p class="lesson">Whenever CSS resizes an image, add <code>height: auto</code> so it keeps its shape.</p>
+  </section>
+
+  <section class="learning" id="hmac">
+    <p class="tag">Oct 21, 2026 · integrity-check</p>
+    <h3><a href="#hmac">A hash alone doesn't prove nobody touched a file</a></h3>
+    <p>My log tamper checker saves a SHA-256 fingerprint of each file, then compares later. The catch: anyone who can edit the logs can probably edit the saved fingerprints too, and then everything still "matches."</p>
+    <p class="lesson">Sign the fingerprints with HMAC and a secret key kept somewhere else. Without the key, a forged fingerprint list gets caught. It's still not perfect: someone could swap in an older signed list, and the README says so.</p>
+  </section>
+
+  <section class="learning" id="free-llms">
+    <p class="tag">Oct 21, 2026 · llm-api</p>
+    <h3><a href="#free-llms">Free AI APIs come with hidden limits</a></h3>
+    <p>Three surprises from building on free model tiers. Model names disappear without warning, so code that worked yesterday gets a 404. Groq's free tier allows 8,000 tokens a minute, so long conversations hit the limit fast. And a slow free model can hang a whole script.</p>
+    <p class="lesson">When a model 404s, ask the API which models it has now. Keep prompts lean. And always set a timeout on every call.</p>
+  </section>
+
+  <section class="learning" id="csp">
+    <p class="tag">Oct 2026 · CodeLingo</p>
+    <h3><a href="#csp">A strict security policy can force a better design</a></h3>
+    <p>I wanted a strict Content Security Policy on CodeLingo, with no <code>unsafe-eval</code>. That blocks a whole class of attacks, but my JavaScript challenges needed to run learners' code.</p>
+    <p class="lesson">Moving that code into its own locked-down Web Worker let the page drop <code>unsafe-eval</code>, and kept learners' code away from the page and their account. The rule I didn't want to follow made the app safer.</p>
+  </section>
+
+  <section class="learning" id="double-booking">
+    <p class="tag">Oct 2026 · Theatre app</p>
+    <h3><a href="#double-booking">Checking a seat is free isn't enough to stop double-booking</a></h3>
+    <p>If two people book the same seat at the same moment, both requests can check "is it free?", both get yes, and both save.</p>
+    <p class="lesson">Put the rule in the database: a unique index allowing one active booking per seat per showtime. The database refuses the second booking no matter how close together they arrive. <a href="theatre.html">More in the case study.</a></p>
+  </section>
+
+  <section class="learning" id="powershell-encoding">
+    <p class="tag">Oct 2026 · Windows</p>
+    <h3><a href="#powershell-encoding">PowerShell can quietly break your files' characters</a></h3>
+    <p>Saving a code file with PowerShell's <code>Set-Content</code> corrupted its special characters. On Windows PowerShell 5.1 it doesn't write UTF-8 unless you tell it to.</p>
+    <p class="lesson">Don't use PowerShell to rewrite code files. If you have to, pass <code>-Encoding utf8</code>, and check the diff before committing.</p>
+  </section>
+
+  <section class="learning" id="free-plan-pause">
+    <p class="tag">Oct 2026 · T3Trims</p>
+    <h3><a href="#free-plan-pause">Free plans can switch off while you're not looking</a></h3>
+    <p>My shop's AI receptionist first ran on Supabase's free plan. Free projects get paused when they're quiet, and one day mine was, so the receptionist went offline.</p>
+    <p class="lesson">For anything clients rely on, read what the free plan does when nobody's using it. I moved the receptionist into a Netlify function next to the site. <a href="ai-receptionist.html">More in the case study.</a></p>
+  </section>
+
+  <div class="cta">
+    <h2>Want something built?</h2>
+    <p>I build web apps and AI tools for small businesses.</p>
+    <a class="btn" href="../#contact">Let's talk <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </div>
+</article>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 Terry "T3" Nguyen · <a href="../">t3rrynguy3n.netlify.app</a></div>
+</footer>
+
+</body>
+</html>

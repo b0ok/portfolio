@@ -51,4 +51,4 @@ figure.wide img { max-width: 100%; height: auto; }
 .more a { display: block; padding: 18px 20px; border: 1px solid var(--steel-dark); border-radius: 4px; background: #f8f4ee; text-decoration: none; font-weight: 600; }
 .more a span { display: block; font-size: 14px; font-weight: 400; color: var(--ink-dark-2); }
 .more a:hover { border-color: var(--red); }
-code { font: 0.9em/1 ui-monospace, Consolas, monospace; background: #f8f4ee; border: 1px solid var(--steel-dark); border-radius: 3px; padding: 2px 5px; }
+code { white-space: nowrap; font: 0.9em/1 ui-monospace, Consolas, monospace; background: #f8f4ee; border: 1px solid var(--steel-dark); border-radius: 3px; padding: 2px 5px; }

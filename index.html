@@ -143,6 +143,7 @@
   .row.featured .links a { display: inline-flex; align-items: center; gap: 6px; }
   .row.featured .shot { overflow: hidden; border-radius: 4px; border: 1px solid var(--steel); max-width: 560px; justify-self: end; }
   .row.featured .shot img { border: 0; border-radius: 0; transition: transform .6s var(--ease); }
+  .row.featured .shot video { display: block; width: 100%; height: auto; background: #0A0A0B; }
   @media (hover: hover) and (pointer: fine) { .row.featured:hover .shot img { transform: scale(1.03); } }
 
   /* scroll reveal: only when JS is on and motion is welcome */
@@ -231,7 +232,7 @@
     <nav aria-label="Main" id="main-nav">
       <a href="#about">About</a>
       <a href="#work">Work</a>
-      <a href="posts/ai-receptionist.html">Writing</a>
+      <a href="posts/">Writing</a>
       <a class="talk" href="#contact">Let's talk</a>
     </nav>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
@@ -308,6 +309,19 @@
             </div>
           </div>
           <img src="images/t3trims-chat.webp" alt="The T3Trims AI receptionist answering &quot;How much is a fade?&quot; with the Fresh Up price of $35" width="640" height="540" loading="lazy">
+        </div>
+
+        <div class="row featured" id="warrior">
+          <div>
+            <h3>WARRIOR</h3>
+            <p>A workout tracker that plays like an MMO. Every set you log earns XP, you train as a warrior class like a Spartan or a Samurai, keep a daily streak, and your clan fights another clan every week. It installs from the browser like a native app and works offline in the gym.</p>
+            <p class="stack">Installable web app · Supabase (Postgres, row-level security) · Cloudflare</p>
+            <div class="links">
+              <span class="status"><span class="dot"></span>Private alpha</span>
+              <a href="#contact">Ask for an invite <svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+          </div>
+          <div class="shot"><video src="images/warrior-trailer.mp4" poster="images/warrior.webp" controls playsinline preload="none" width="1280" height="720" aria-label="WARRIOR alpha trailer: log sets, earn XP, pick a class, fight clan wars"></video></div>
         </div>
 
         <div class="row featured">
